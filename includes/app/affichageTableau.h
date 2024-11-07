@@ -1,6 +1,13 @@
 #ifndef AFFICH_TABL_H
 #define AFFICH_TABL_H
 
-void affichageTableau(int longueur, char *tableau[], int depart);
+typedef struct
+{
+    int depart;
+    int longueur;
+    char **tableau;
+} TableauProp;
+
+void affichageTableau(TableauProp entreeUser);
 
 #endif

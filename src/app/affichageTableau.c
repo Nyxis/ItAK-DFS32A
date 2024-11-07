@@ -1,10 +1,12 @@
 #include <stdio.h>
+#include "affichageTableau.h"
 
-void affichageTableau(int longueur, char *tableau[], int depart)
+void affichageTableau(TableauProp entreesUser)
 {
+    char **tableauAge = entreesUser.tableau;
 
-    for (int i = depart; i < longueur; i++)
+    for (int i = entreesUser.depart; i < entreesUser.longueur; i++)
     {
-        printf("Hello world j'ai %s ans ! \n", tableau[i]);
+        printf("Hello world j'ai %s ans ! \n", tableauAge[i]);
     }
 }

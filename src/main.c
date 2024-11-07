@@ -1,8 +1,17 @@
-#include "affichageTableau.h"
+#include <time.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include "cartes.h"
+#include "./app/cardGenerator.c"
+#include "./app/deckGenerator.c"
+#include "./app/cardChooser.c"
 
 int main(int argc, char *argv[])
 {
-    affichageTableau(argc, argv, 1);
+    srand(time(NULL));
 
-    return 0;
+    Card *deck = deckGenerator();
+
+    int playedCard = cardChooser(deck);
+
 };
