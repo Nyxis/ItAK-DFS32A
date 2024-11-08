@@ -138,6 +138,19 @@ void genererMain(Carte main[], int tailleMain) {
         main[i] = genererCarteAleatoire();
     }
 }
+int peutJouer(Carte main[], int tailleMain, Carte tableau[LIGNES][COLONNES]) {
+    for (int i = 0; i < tailleMain; i++) {
+        for (int ligne = 0; ligne < LIGNES; ligne++) {
+            for (int colonne = 0; colonne < COLONNES; colonne++) {
+                if (peutPlacerCarte(tableau, ligne, colonne, main[i].niveau)) {
+                    return 1; // Le joueur peut jouer cette carte
+                }
+            }
+        }
+    }
+    return 0; // Aucune carte jouable
+}
+
 int main() {
     srand(time(NULL));  // Initialiser le générateur aléatoire
 
@@ -157,6 +170,12 @@ int main() {
     while (jeuEnCours) {
         afficherTableau(tableau); // Affiche l’état du tableau au début de chaque tour
 
+        // Vérifie si au moins un des deux joueurs peut jouer
+        if (!peutJouer(mainJoueur1, tailleMainJ1, tableau) && !peutJouer(mainJoueur2, tailleMainJ2, tableau)) {
+            printf("Aucun joueur ne peut plus jouer. Fin de la partie.\n");
+            break;
+        }
+
         if (joueurActuel == 1 && tailleMainJ1 > 0) {
             printf("Joueur 1, votre tour.\n");
             int choixCarte = choisirCarte(mainJoueur1, tailleMainJ1);
@@ -168,7 +187,7 @@ int main() {
                     tableau[ligne][colonne] = mainJoueur1[choixCarte];
                     printf("Carte placée avec succès.\n");
 
-                    // Retire la carte de la main
+                    // Supprime la carte de la main du joueur
                     for (int i = choixCarte; i < tailleMainJ1 - 1; i++) {
                         mainJoueur1[i] = mainJoueur1[i + 1];
                     }
@@ -179,8 +198,6 @@ int main() {
                 }
             } else {
                 printf("Joueur 1 a passé son tour.\n");
-                jeuEnCours = false;
-                continue;
             }
             joueurActuel = 2;
         } else if (joueurActuel == 2 && toursRestantsJoueur2 > 0 && tailleMainJ2 > 0) {
