@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h> // pour utiliser bool, true, et false
+
 
 #define LIGNES 3
 #define COLONNES 5
@@ -95,28 +97,100 @@ int peutPlacerCarte(Carte tableau[LIGNES][COLONNES], int ligne, int colonne, Niv
 
     return 0; // Par défaut, placement invalide
 }
+int calculerScore(Carte tableau[LIGNES][COLONNES]) {
+    int score = 0;
+    for (int i = 0; i < LIGNES; i++) {
+        for (int j = 0; j < COLONNES; j++) {
+            score += tableau[i][j].force; // Additionne la force des cartes présentes
+        }
+    }
+    return score;
+}
+
 
 int main() {
     Carte tableau[LIGNES][COLONNES] = {{{0}}};
     Carte mainJoueur1[] = {{NIVEAU_1, ROUGE, FORCE_3}, {NIVEAU_2, BLEU, FORCE_5}};
-    int tailleMainJ1 = 2;
+    Carte mainJoueur2[] = {{NIVEAU_1, NOIR, FORCE_4}, {NIVEAU_3, VERT, FORCE_10}};
+    int tailleMainJ1 = 2, tailleMainJ2 = 2;
+    int toursRestantsJoueur2 = 3; // Compteur pour les 3 tours supplémentaires du deuxième joueur
 
-    int choixCarte = choisirCarte(mainJoueur1, tailleMainJ1);
-    if (choixCarte != -1) {
-        int ligne, colonne;
-        choisirEmplacement(&ligne, &colonne);
+    bool jeuEnCours = true;
+    int joueurActuel = 1;
 
-        // Vérifie si le placement est valide
-        if (peutPlacerCarte(tableau, ligne, colonne, mainJoueur1[choixCarte].niveau)) {
-            // Place la carte dans le tableau
-            tableau[ligne][colonne] = mainJoueur1[choixCarte];
-            printf("Carte placée avec succès en niveaux %d, colonne %d.\n", ligne + 1, colonne + 1);
+    while (jeuEnCours) {
+        if (joueurActuel == 1 && tailleMainJ1 > 0) {
+            printf("Joueur 1, votre tour.\n");
+            int choixCarte = choisirCarte(mainJoueur1, tailleMainJ1);
+            if (choixCarte != -1) {
+                int ligne, colonne;
+                choisirEmplacement(&ligne, &colonne);
+
+                if (peutPlacerCarte(tableau, ligne, colonne, mainJoueur1[choixCarte].niveau)) {
+                    tableau[ligne][colonne] = mainJoueur1[choixCarte];
+                    printf("Carte placée avec succès.\n");
+
+                    // Supprime la carte de la main du joueur
+                    for (int i = choixCarte; i < tailleMainJ1 - 1; i++) {
+                        mainJoueur1[i] = mainJoueur1[i + 1];
+                    }
+                    tailleMainJ1--;
+                } else {
+                    printf("Placement invalide. Veuillez essayer à nouveau.\n");
+                    continue;
+                }
+            } else {
+                printf("Joueur 1 a passé son tour.\n");
+                jeuEnCours = false; // Fin du tour si le joueur ne peut plus jouer
+                continue;
+            }
+            joueurActuel = 2;
+        } else if (joueurActuel == 2 && toursRestantsJoueur2 > 0 && tailleMainJ2 > 0) {
+            printf("Joueur 2, votre tour (%d tours restants).\n", toursRestantsJoueur2);
+            int choixCarte = choisirCarte(mainJoueur2, tailleMainJ2);
+            if (choixCarte != -1) {
+                int ligne, colonne;
+                choisirEmplacement(&ligne, &colonne);
+
+                if (peutPlacerCarte(tableau, ligne, colonne, mainJoueur2[choixCarte].niveau)) {
+                    tableau[ligne][colonne] = mainJoueur2[choixCarte];
+                    printf("Carte placée avec succès.\n");
+
+                    // Supprime la carte de la main du joueur
+                    for (int i = choixCarte; i < tailleMainJ2 - 1; i++) {
+                        mainJoueur2[i] = mainJoueur2[i + 1];
+                    }
+                    tailleMainJ2--;
+                } else {
+                    printf("Placement invalide. Veuillez essayer à nouveau.\n");
+                    continue;
+                }
+            } else {
+                printf("Joueur 2 a passé son tour.\n");
+            }
+            toursRestantsJoueur2--;
+            joueurActuel = 1;
         } else {
-            printf("Placement invalide. Veuillez choisir un autre emplacement.\n");
+            jeuEnCours = false;
         }
+    }
+
+    // Calcul des scores et annonce du gagnant
+    int scoreJoueur1 = calculerScore(tableau);
+    int scoreJoueur2 = calculerScore(tableau); // On pourrait ici calculer en séparant par joueur
+
+    printf("Fin de la partie !\n");
+    printf("Score Joueur 1 : %d\n", scoreJoueur1);
+    printf("Score Joueur 2 : %d\n", scoreJoueur2);
+
+    if (scoreJoueur1 > scoreJoueur2) {
+        printf("Le Joueur 1 gagne !\n");
+    } else if (scoreJoueur1 < scoreJoueur2) {
+        printf("Le Joueur 2 gagne !\n");
     } else {
-        printf("Tour passé.\n");
+        printf("Égalité !\n");
     }
 
     return 0;
 }
+
