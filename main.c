@@ -1,73 +1,77 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #define LIGNES 3
 #define COLONNES 5
 
-// Definition of possible levels
-typedef enum {
-    NIVEAU_1 = 1,
-    NIVEAU_2,
-    NIVEAU_3
-} Niveau;
+// Définition des niveaux, couleurs et forces
+typedef enum { NIVEAU_1 = 1, NIVEAU_2, NIVEAU_3 } Niveau;
+typedef enum { BLANC, GRIS, NOIR, BLEU, ORANGE, ROUGE, VIOLET, ROSE, JAUNE, VERT } Couleur;
+typedef enum { FORCE_2 = 2, FORCE_3, FORCE_4, FORCE_5, FORCE_6, FORCE_10 } Force;
 
-// Definition of possible colors
-typedef enum {
-    BLANC, GRIS, NOIR, BLEU, ORANGE, ROUGE, VIOLET, ROSE, JAUNE, VERT
-} Couleur;
-
-// Definition of possible strength for a card
-typedef enum {
-    FORCE_2 = 2, FORCE_3, FORCE_4, FORCE_5, FORCE_6, FORCE_10
-} Force;
-
-// Structure representing a card
 typedef struct {
     Niveau niveau;
     Couleur couleur;
     Force force;
 } Carte;
 
-// Viewing function for a card
+// Affiche une carte
 void afficherCarte(Carte carte) {
     const char *couleurs[] = {"Blanc", "Gris", "Noir", "Bleu", "Orange", "Rouge", "Violet", "Rose", "Jaune", "Vert"};
     printf("Niveau: %d, Couleur: %s, Force: %d\n", carte.niveau, couleurs[carte.couleur], carte.force);
 }
 
-// Display function for the game state, including the board and each player's hand
-void afficherEtatPartie(Carte tableau[LIGNES][COLONNES], Carte mainJoueur1[], int tailleMainJ1, Carte mainJoueur2[], int tailleMainJ2) {
-    printf("Game Board:\n");
-    for (int i = 0; i < LIGNES; i++) {
-        for (int j = 0; j < COLONNES; j++) {
-            if (tableau[i][j].force != 0) { // Check if a card is present
-                afficherCarte(tableau[i][j]);
-            } else {
-                printf("[Empty] ");
-            }
-        }
-        printf("\n");
+// Affiche la main d'un joueur
+int choisirCarte(Carte main[], int tailleMain) {
+    char input[10];
+    int choix = -1;
+
+    printf("Votre main actuelle :\n");
+    for (int i = 0; i < tailleMain; i++) {
+        printf("%d: ", i + 1); // Affichage de l’index à partir de 1
+        afficherCarte(main[i]);
     }
 
-    printf("\nPlayer 1's Hand:\n");
-    for (int i = 0; i < tailleMainJ1; i++) {
-        afficherCarte(mainJoueur1[i]);
+    printf("Choisissez une carte dans votre main (1 à %d) ou -1 pour passer : ", tailleMain);
+    if (fgets(input, sizeof(input), stdin) != NULL) {
+        choix = atoi(input);
     }
 
-    printf("\nPlayer 2's Hand:\n");
-    for (int i = 0; i < tailleMainJ2; i++) {
-        afficherCarte(mainJoueur2[i]);
+    if (choix >= 1 && choix <= tailleMain) {
+        return choix - 1; // Convertit en index de tableau
+    } else {
+        return -1;
+    }
+}
+
+// Choix de niveau et colonne
+void choisirEmplacement(int *ligne, int *colonne) {
+    char input[10];
+
+    printf("Choisissez un niveau (1 à %d) : ", LIGNES);
+    if (fgets(input, sizeof(input), stdin) != NULL) {
+        *ligne = atoi(input) - 1;
+    }
+
+    printf("Choisissez une colonne (1 à %d) pour poser la carte : ", COLONNES);
+    if (fgets(input, sizeof(input), stdin) != NULL) {
+        *colonne = atoi(input) - 1;
     }
 }
 
 int main() {
-    // Initialize an empty game board
     Carte tableau[LIGNES][COLONNES] = {{{0}}};
-
-    // Initialize players' hands with sample cards
     Carte mainJoueur1[] = {{NIVEAU_1, ROUGE, FORCE_3}, {NIVEAU_2, BLEU, FORCE_5}};
-    Carte mainJoueur2[] = {{NIVEAU_1, NOIR, FORCE_4}, {NIVEAU_3, VERT, FORCE_10}};
+    int tailleMainJ1 = 2;
 
-    // Display the initial state of the game
-    afficherEtatPartie(tableau, mainJoueur1, 2, mainJoueur2, 2);
+    int choixCarte = choisirCarte(mainJoueur1, tailleMainJ1);
+    if (choixCarte != -1) {
+        int ligne, colonne;
+        choisirEmplacement(&ligne, &colonne);
+        printf("Vous avez choisi la carte %d et l'emplacement niveaux %d colonne %d\n", choixCarte + 1, ligne + 1, colonne + 1);
+    } else {
+        printf("Tour passé.\n");
+    }
 
     return 0;
 }
