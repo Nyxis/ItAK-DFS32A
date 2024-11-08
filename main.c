@@ -1,5 +1,8 @@
 #include <stdio.h>
 
+#define LIGNES 3
+#define COLONNES 5
+
 // Definition of possible levels
 typedef enum {
     NIVEAU_1 = 1,
@@ -24,23 +27,47 @@ typedef struct {
     Force force;
 } Carte;
 
-//
-// Viewing function for a cards
+// Viewing function for a card
 void afficherCarte(Carte carte) {
     const char *couleurs[] = {"Blanc", "Gris", "Noir", "Bleu", "Orange", "Rouge", "Violet", "Rose", "Jaune", "Vert"};
     printf("Niveau: %d, Couleur: %s, Force: %d\n", carte.niveau, couleurs[carte.couleur], carte.force);
 }
 
-int main() {
-    // Creation of some maps to test
-    Carte carte1 = {NIVEAU_1, ROUGE, FORCE_3};
-    Carte carte2 = {NIVEAU_2, BLEU, FORCE_5};
-    Carte carte3 = {NIVEAU_3, VERT, FORCE_10};
+// Display function for the game state, including the board and each player's hand
+void afficherEtatPartie(Carte tableau[LIGNES][COLONNES], Carte mainJoueur1[], int tailleMainJ1, Carte mainJoueur2[], int tailleMainJ2) {
+    printf("Game Board:\n");
+    for (int i = 0; i < LIGNES; i++) {
+        for (int j = 0; j < COLONNES; j++) {
+            if (tableau[i][j].force != 0) { // Check if a card is present
+                afficherCarte(tableau[i][j]);
+            } else {
+                printf("[Empty] ");
+            }
+        }
+        printf("\n");
+    }
 
-    // Viewing cards
-    afficherCarte(carte1);
-    afficherCarte(carte2);
-    afficherCarte(carte3);
+    printf("\nPlayer 1's Hand:\n");
+    for (int i = 0; i < tailleMainJ1; i++) {
+        afficherCarte(mainJoueur1[i]);
+    }
+
+    printf("\nPlayer 2's Hand:\n");
+    for (int i = 0; i < tailleMainJ2; i++) {
+        afficherCarte(mainJoueur2[i]);
+    }
+}
+
+int main() {
+    // Initialize an empty game board
+    Carte tableau[LIGNES][COLONNES] = {{{0}}};
+
+    // Initialize players' hands with sample cards
+    Carte mainJoueur1[] = {{NIVEAU_1, ROUGE, FORCE_3}, {NIVEAU_2, BLEU, FORCE_5}};
+    Carte mainJoueur2[] = {{NIVEAU_1, NOIR, FORCE_4}, {NIVEAU_3, VERT, FORCE_10}};
+
+    // Display the initial state of the game
+    afficherEtatPartie(tableau, mainJoueur1, 2, mainJoueur2, 2);
 
     return 0;
 }
