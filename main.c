@@ -58,6 +58,43 @@ void choisirEmplacement(int *ligne, int *colonne) {
         *colonne = atoi(input) - 1;
     }
 }
+int peutPlacerCarte(Carte tableau[LIGNES][COLONNES], int ligne, int colonne, Niveau niveau) {
+    // Vérifie les limites du tableau pour éviter tout dépassement d'indice
+    if (ligne < 0 || ligne >= LIGNES || colonne < 0 || colonne >= COLONNES) {
+        return 0; // Emplacement hors du tableau
+    }
+
+    // Vérifie si l'emplacement est déjà occupé
+    if (tableau[ligne][colonne].force != 0) {
+        return 0; // Emplacement occupé
+    }
+
+    // Règles spécifiques selon le niveau de la carte
+    if (niveau == NIVEAU_1) {
+        // Niveau 1 : Doit être placé sur la première ligne
+        if (ligne == 0) {
+            return 1;
+        } else {
+            return 0;
+        }
+    } else if (niveau == NIVEAU_2) {
+        // Niveau 2 : Doit être placé sur la deuxième ligne et nécessite une carte de Niveau 1 juste en dessous
+        if (ligne == 1 && tableau[ligne - 1][colonne].niveau == NIVEAU_1) {
+            return 1;
+        } else {
+            return 0;
+        }
+    } else if (niveau == NIVEAU_3) {
+        // Niveau 3 : Doit être placé sur la troisième ligne et nécessite une carte de Niveau 2 juste en dessous
+        if (ligne == 2 && tableau[ligne - 1][colonne].niveau == NIVEAU_2) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    return 0; // Par défaut, placement invalide
+}
 
 int main() {
     Carte tableau[LIGNES][COLONNES] = {{{0}}};
@@ -68,7 +105,15 @@ int main() {
     if (choixCarte != -1) {
         int ligne, colonne;
         choisirEmplacement(&ligne, &colonne);
-        printf("Vous avez choisi la carte %d et l'emplacement niveaux %d colonne %d\n", choixCarte + 1, ligne + 1, colonne + 1);
+
+        // Vérifie si le placement est valide
+        if (peutPlacerCarte(tableau, ligne, colonne, mainJoueur1[choixCarte].niveau)) {
+            // Place la carte dans le tableau
+            tableau[ligne][colonne] = mainJoueur1[choixCarte];
+            printf("Carte placée avec succès en niveaux %d, colonne %d.\n", ligne + 1, colonne + 1);
+        } else {
+            printf("Placement invalide. Veuillez choisir un autre emplacement.\n");
+        }
     } else {
         printf("Tour passé.\n");
     }
