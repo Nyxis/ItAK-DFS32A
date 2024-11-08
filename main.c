@@ -107,18 +107,34 @@ int calculerScore(Carte tableau[LIGNES][COLONNES]) {
     return score;
 }
 
+void afficherTableau(Carte tableau[LIGNES][COLONNES]) {
+    printf("\nÉtat actuel du tableau :\n");
+    for (int i = 0; i < LIGNES; i++) {
+        for (int j = 0; j < COLONNES; j++) {
+            if (tableau[i][j].force != 0) { // Si une carte est présente
+                printf("N%d-F%d ", tableau[i][j].niveau, tableau[i][j].force);
+            } else {
+                printf("[Empty] ");
+            }
+        }
+        printf("\n");
+    }
+    printf("\n");
+}
 
 int main() {
     Carte tableau[LIGNES][COLONNES] = {{{0}}};
     Carte mainJoueur1[] = {{NIVEAU_1, ROUGE, FORCE_3}, {NIVEAU_2, BLEU, FORCE_5}};
     Carte mainJoueur2[] = {{NIVEAU_1, NOIR, FORCE_4}, {NIVEAU_3, VERT, FORCE_10}};
     int tailleMainJ1 = 2, tailleMainJ2 = 2;
-    int toursRestantsJoueur2 = 3; // Compteur pour les 3 tours supplémentaires du deuxième joueur
+    int toursRestantsJoueur2 = 3;
 
     bool jeuEnCours = true;
     int joueurActuel = 1;
 
     while (jeuEnCours) {
+        afficherTableau(tableau); // Affiche l’état du tableau au début de chaque tour
+
         if (joueurActuel == 1 && tailleMainJ1 > 0) {
             printf("Joueur 1, votre tour.\n");
             int choixCarte = choisirCarte(mainJoueur1, tailleMainJ1);
@@ -130,7 +146,7 @@ int main() {
                     tableau[ligne][colonne] = mainJoueur1[choixCarte];
                     printf("Carte placée avec succès.\n");
 
-                    // Supprime la carte de la main du joueur
+                    // Retire la carte de la main
                     for (int i = choixCarte; i < tailleMainJ1 - 1; i++) {
                         mainJoueur1[i] = mainJoueur1[i + 1];
                     }
@@ -141,7 +157,7 @@ int main() {
                 }
             } else {
                 printf("Joueur 1 a passé son tour.\n");
-                jeuEnCours = false; // Fin du tour si le joueur ne peut plus jouer
+                jeuEnCours = false;
                 continue;
             }
             joueurActuel = 2;
@@ -156,7 +172,6 @@ int main() {
                     tableau[ligne][colonne] = mainJoueur2[choixCarte];
                     printf("Carte placée avec succès.\n");
 
-                    // Supprime la carte de la main du joueur
                     for (int i = choixCarte; i < tailleMainJ2 - 1; i++) {
                         mainJoueur2[i] = mainJoueur2[i + 1];
                     }
@@ -175,9 +190,9 @@ int main() {
         }
     }
 
-    // Calcul des scores et annonce du gagnant
+    afficherTableau(tableau); // Affiche l’état final du tableau
     int scoreJoueur1 = calculerScore(tableau);
-    int scoreJoueur2 = calculerScore(tableau); // On pourrait ici calculer en séparant par joueur
+    int scoreJoueur2 = calculerScore(tableau);
 
     printf("Fin de la partie !\n");
     printf("Score Joueur 1 : %d\n", scoreJoueur1);
@@ -193,4 +208,3 @@ int main() {
 
     return 0;
 }
-
