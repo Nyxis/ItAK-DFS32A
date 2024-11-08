@@ -2,11 +2,12 @@
 #include <stdlib.h>  // pour rand(), srand() et atoi()
 #include <time.h>    // pour time()#include <stdbool.h> // pour utiliser bool, true, et false
 #include <stdbool.h> // pour utiliser bool, true, et false
+#include <string.h>  // Pour utiliser strcmp()
 
 
 #define LIGNES 3
 #define COLONNES 5
-#define NB_CARTES_MAIN 2  // Nombre de cartes par main
+#define NB_CARTES_MAIN 5  // Nombre de cartes par main
 
 // Définition des niveaux, couleurs et forces
 typedef enum { NIVEAU_1 = 1, NIVEAU_2, NIVEAU_3 } Niveau;
@@ -151,8 +152,36 @@ int peutJouer(Carte main[], int tailleMain, Carte tableau[LIGNES][COLONNES]) {
     return 0; // Aucune carte jouable
 }
 
+// Fonction pour afficher les règles du jeu
+void afficherRegles() {
+    printf("Bienvenue dans le jeu de cartes en ligne de commande !\n\n");
+    printf("Règles du jeu :\n");
+    printf("- Chaque joueur possède une main de cartes, chacune ayant un niveau, une couleur et une force.\n");
+    printf("- Le niveau détermine la ligne sur laquelle une carte peut être placée :\n");
+    printf("    * Niveau 1 : Placée uniquement sur la première ligne.\n");
+    printf("    * Niveau 2 : Placée sur la deuxième ligne, si une carte de Niveau 1 est en dessous.\n");
+    printf("    * Niveau 3 : Placée sur la troisième ligne, si une carte de Niveau 2 est en dessous.\n");
+    printf("- La partie se termine si aucun joueur ne peut plus jouer ou si l’un des joueurs passe son tour.\n");
+    printf("- À la fin de la partie, le joueur avec la force totale la plus élevée sur le tableau gagne !\n\n");
+    printf("Pour commencer la partie, tapez 'ok' puis appuyez sur Entrée.\n\n");
+}
+
+// Fonction pour attendre que le joueur tape "ok"
+void attendreDemarrage() {
+    char input[10];
+    do {
+        printf("Tapez 'ok' pour commencer : ");
+        fgets(input, sizeof(input), stdin);
+        // Supprime le saut de ligne résiduel
+        input[strcspn(input, "\n")] = '\0';
+    } while (strcmp(input, "ok") != 0);
+}
+
 int main() {
     srand(time(NULL));  // Initialiser le générateur aléatoire
+
+    afficherRegles();   // Afficher les règles
+    attendreDemarrage(); // Attendre le démarrage
 
     Carte tableau[LIGNES][COLONNES] = {{{0}}};
     Carte mainJoueur1[NB_CARTES_MAIN];
