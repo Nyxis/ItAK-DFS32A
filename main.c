@@ -1,10 +1,12 @@
 #include <stdio.h>
-#include <stdlib.h>
+#include <stdlib.h>  // pour rand(), srand() et atoi()
+#include <time.h>    // pour time()#include <stdbool.h> // pour utiliser bool, true, et false
 #include <stdbool.h> // pour utiliser bool, true, et false
 
 
 #define LIGNES 3
 #define COLONNES 5
+#define NB_CARTES_MAIN 2  // Nombre de cartes par main
 
 // Définition des niveaux, couleurs et forces
 typedef enum { NIVEAU_1 = 1, NIVEAU_2, NIVEAU_3 } Niveau;
@@ -121,12 +123,32 @@ void afficherTableau(Carte tableau[LIGNES][COLONNES]) {
     }
     printf("\n");
 }
+// Fonction pour générer une carte aléatoire
+Carte genererCarteAleatoire() {
+    Carte carte;
+    carte.niveau = (Niveau)(rand() % 3 + 1);            // Niveaux 1, 2 ou 3
+    carte.couleur = (Couleur)(rand() % 10);             // Couleurs 0 à 9 (correspondant aux couleurs définies)
+    carte.force = (Force)((rand() % 5) * 2 + 2);        // Force parmi {2, 4, 6, 8, 10}
+    return carte;
+}
 
+// Générer les mains des joueurs avec des cartes aléatoires
+void genererMain(Carte main[], int tailleMain) {
+    for (int i = 0; i < tailleMain; i++) {
+        main[i] = genererCarteAleatoire();
+    }
+}
 int main() {
+    srand(time(NULL));  // Initialiser le générateur aléatoire
+
     Carte tableau[LIGNES][COLONNES] = {{{0}}};
-    Carte mainJoueur1[] = {{NIVEAU_1, ROUGE, FORCE_3}, {NIVEAU_2, BLEU, FORCE_5}};
-    Carte mainJoueur2[] = {{NIVEAU_1, NOIR, FORCE_4}, {NIVEAU_3, VERT, FORCE_10}};
-    int tailleMainJ1 = 2, tailleMainJ2 = 2;
+    Carte mainJoueur1[NB_CARTES_MAIN];
+    Carte mainJoueur2[NB_CARTES_MAIN];
+
+    genererMain(mainJoueur1, NB_CARTES_MAIN);
+    genererMain(mainJoueur2, NB_CARTES_MAIN);
+
+    int tailleMainJ1 = NB_CARTES_MAIN, tailleMainJ2 = NB_CARTES_MAIN;
     int toursRestantsJoueur2 = 3;
 
     bool jeuEnCours = true;
