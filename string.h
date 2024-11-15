@@ -7,6 +7,4 @@ typedef struct {
 } String;
 
 String createString(const char *text);
-void freeString(String *str);
-
 #endif // STRING_H

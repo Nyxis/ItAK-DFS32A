@@ -6,25 +6,25 @@
 #include <stdbool.h>
 #include <time.h>
 
-// Initialise le générateur de nombres aléatoires
+// Initializes the random number generator
 void initialiserAleatoire() {
     srand(time(NULL));
 }
 
-// Génère une main de cartes aléatoires pour un joueur
+// Generates a hand of random cards for a player
 void genererMain(Carte main[], int tailleMain) {
     for (int i = 0; i < tailleMain; i++) {
         main[i] = createCarte(
-            (Niveau)(rand() % 3 + 1),              // Niveaux 1, 2 ou 3
-            (Couleur)(rand() % 10),                // Couleurs 0 à 9
-            (Force)((rand() % 5) * 2 + 2),         // Forces parmi {2, 4, 6, 8, 10}
+            (Niveau)(rand() % 3 + 1),              // Levels 1, 2 or 3
+            (Couleur)(rand() % 10),                // Colors 0 to 9
+            (Force)((rand() % 5) * 2 + 2),         // Forces among {2, 4, 6, 8, 10}
             "Carte aléatoire",
-            effetCarte                             // Fonction à appeler quand la carte est jouée
+            effetCarte                             // Function to call when the card is played
         );
     }
 }
 
-// Initialiser la partie en générant les mains et en réinitialisant le tableau
+// Initialize the game by generating hands and resetting the board
 void initialiserPartie(Carte mainJoueur1[], Carte mainJoueur2[], Carte tableau[LIGNES][COLONNES]) {
     initialiserAleatoire();
     afficherRegles();
@@ -37,12 +37,12 @@ void initialiserPartie(Carte mainJoueur1[], Carte mainJoueur2[], Carte tableau[L
     for (int i = 0; i < LIGNES; i++) {
         for (int j = 0; j < COLONNES; j++) {
             tableau[i][j].force = 0;
-            tableau[i][j].joueur = 0;  // Ajout : initialiser le champ joueur
+            tableau[i][j].joueur = 0;  // Added: initialize the player field
         }
     }
 }
 
-// Gérer le tour d'un joueur, y compris la sélection et le placement de la carte
+// Manage a player's turn, including card selection and placement
 bool tourDeJoueur(Carte main[], int *tailleMain, Carte tableau[LIGNES][COLONNES], int joueurNum, int *passesTurnCount) {
     printf("Joueur %d, votre tour.\n", joueurNum);
     int choixCarte = choisirCarte(main, *tailleMain);
@@ -58,15 +58,15 @@ bool tourDeJoueur(Carte main[], int *tailleMain, Carte tableau[LIGNES][COLONNES]
 
     if (peutPlacerCarte(tableau, ligne, colonne, main[choixCarte].niveau)) {
         tableau[ligne][colonne] = main[choixCarte];
-        tableau[ligne][colonne].joueur = joueurNum;  // Associe la carte au joueur
+        tableau[ligne][colonne].joueur = joueurNum;  // Match the card to the player
         jouerCarte(&main[choixCarte]);
 
-        // Supprimer la carte de la main et réduire la taille de la main
+        // Remove card from hand and reduce hand size
         for (int i = choixCarte; i < *tailleMain - 1; i++) {
             main[i] = main[i + 1];
         }
         (*tailleMain)--;
-        *passesTurnCount = 0;  // Réinitialise le compteur de tours passés pour ce joueur
+        *passesTurnCount = 0;  // Reset the pass turn counter for this player
         return true;
     } else {
         printf("Placement invalide. Veuillez réessayer.\n");
@@ -75,7 +75,7 @@ bool tourDeJoueur(Carte main[], int *tailleMain, Carte tableau[LIGNES][COLONNES]
 }
 
 
-// Vérifie si la partie est terminée
+// Check if the game is over
 bool verifierFinPartie(int passesTurnCountJ1, int passesTurnCountJ2, Carte mainJoueur1[], int tailleMainJ1, Carte mainJoueur2[], int tailleMainJ2, Carte tableau[LIGNES][COLONNES]) {
     if (passesTurnCountJ1 >= 1 && passesTurnCountJ2 >= 1) {
         printf("Les deux joueurs ont passé leur tour consécutivement. Fin de la partie.\n");
@@ -88,7 +88,7 @@ bool verifierFinPartie(int passesTurnCountJ1, int passesTurnCountJ2, Carte mainJ
     return false;
 }
 
-// Calcule le score pour un joueur spécifique en additionnant la force des cartes qu'il a jouées
+// Calculates the score for a specific player by adding the strength of the cards he played
 int calculerScoreJoueur(Carte tableau[LIGNES][COLONNES], int joueurNum) {
     int score = 0;
     for (int i = 0; i < LIGNES; i++) {
@@ -101,7 +101,7 @@ int calculerScoreJoueur(Carte tableau[LIGNES][COLONNES], int joueurNum) {
     return score;
 }
 
-// Affiche les résultats finaux et détermine le gagnant
+// Shows final results and determines winner
 void afficherResultats(Carte tableau[LIGNES][COLONNES]) {
     int scoreJoueur1 = calculerScoreJoueur(tableau, 1);
     int scoreJoueur2 = calculerScoreJoueur(tableau, 2);
@@ -118,28 +118,28 @@ void afficherResultats(Carte tableau[LIGNES][COLONNES]) {
     }
 }
 
-// Vérifie si une carte peut être placée sur le tableau selon les règles du jeu
+// Checks if a card can be placed on the board according to the rules of the game
 int peutPlacerCarte(Carte tableau[LIGNES][COLONNES], int ligne, int colonne, Niveau niveau) {
     if (ligne < 0 || ligne >= LIGNES || colonne < 0 || colonne >= COLONNES) return 0;
     if (tableau[ligne][colonne].force != 0) return 0;  // Case déjà occupée
 
-    // Vérifie le niveau requis pour placer la carte
+    // Checks the level required to place the card
     if (niveau == NIVEAU_1) return (ligne == 0);
     if (niveau == NIVEAU_2) return (ligne == 1 && tableau[ligne - 1][colonne].niveau == NIVEAU_1);
     if (niveau == NIVEAU_3) return (ligne == 2 && tableau[ligne - 1][colonne].niveau == NIVEAU_2);
     return 0;
 }
 
-// Vérifie si un joueur peut encore jouer une carte dans sa main sur le tableau
+// Checks if a player can still play a card in their hand on the board
 int peutJouer(Carte main[], int tailleMain, Carte tableau[LIGNES][COLONNES]) {
     for (int i = 0; i < tailleMain; i++) {
         for (int ligne = 0; ligne < LIGNES; ligne++) {
             for (int colonne = 0; colonne < COLONNES; colonne++) {
                 if (peutPlacerCarte(tableau, ligne, colonne, main[i].niveau)) {
-                    return 1;  // Un placement valide est possible
+                    return 1;  // Valid placement is possible
                 }
             }
         }
     }
-    return 0;  // Aucun placement valide possible
+    return 0;  // No valid placement possible
 }

@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-// Fonction pour afficher le tableau de jeu
+// Function to display the game board
 void afficherTableau(Carte tableau[LIGNES][COLONNES]) {
     printf("\nÉtat actuel du tableau :\n");
     for (int i = 0; i < LIGNES; i++) {
@@ -20,7 +20,7 @@ void afficherTableau(Carte tableau[LIGNES][COLONNES]) {
     printf("\n");
 }
 
-// Affiche les règles du jeu
+// Shows the rules of the game
 void afficherRegles() {
     printf("Bienvenue dans le jeu de cartes en ligne de commande !\n\n");
     printf("Règles du jeu :\n");
@@ -34,7 +34,7 @@ void afficherRegles() {
     printf("Pour commencer la partie, tapez 'ok' puis appuyez sur Entrée.\n\n");
 }
 
-// Attendre que le joueur tape "ok" pour démarrer
+// Wait for the player to type "ok" to start
 void attendreDemarrage() {
     char input[10];
     do {
@@ -44,7 +44,7 @@ void attendreDemarrage() {
     } while (strcmp(input, "ok") != 0);
 }
 
-// Fonction pour choisir une carte dans la main
+// Function to choose a card from the hand
 int choisirCarte(Carte main[], int tailleMain) {
     char input[10];
     int choix = -1;
@@ -63,7 +63,7 @@ int choisirCarte(Carte main[], int tailleMain) {
     return (choix >= 1 && choix <= tailleMain) ? choix - 1 : -1;
 }
 
-// Fonction pour choisir l’emplacement (ligne et colonne)
+// Function to choose location (row and column)
 void choisirEmplacement(int *ligne, int *colonne) {
     char input[10];
 

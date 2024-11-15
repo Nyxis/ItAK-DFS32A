@@ -1,6 +1,5 @@
 #include "carte.h"
 #include <stdio.h>
-#include <stdlib.h>
 
 
 void afficherCarte(Carte carte) {

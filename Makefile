@@ -1,24 +1,24 @@
-# Nom de l'exécutable avec extension .exe
+# Executable name with .exe extension
 EXEC = jeu.exe
 
-# Compilateur et options de compilation
-# Le compilateur à utiliser (gcc dans ce cas)
+# Compiler and compilation options
+# The compiler to use (gcc in this case)
 CC = gcc
-# Les options de compilation, ici :
-# -Wall : Active tous les avertissements du compilateur.
-# -Wextra : Active des avertissements supplémentaires.
-# -g : Inclut des informations de débogage dans les fichiers compilés.
+# The compilation options, here:
+# -Wall: Enables all compiler warnings.
+# -Wextra: Enables additional warnings.
+# -g: Include debugging information in compiled files.
 CFLAGS = -Wall -Wextra -g
 
-# Fichiers sources
-# Liste des fichiers source à compiler, ici les fichiers .c
+# Source files
+# List of source files to compile, here the .c files
 SRCS = main.c carte.c jeu.c interface.c string.c
 
-# Fichiers objets
-# Transformation de la liste de fichiers sources (.c) en fichiers objets (.o)
+# Object files
+# Transformation of the list of source files (.c) into object files (.o)
 OBJS = $(SRCS:.c=.o)
 
-# Affiche les commandes disponibles
+# Shows available commands
 help:
 	@echo "Options disponibles dans le Makefile :"
 	@echo "  make build   : Compile le programme et génère l'exécutable $(EXEC)"
@@ -27,37 +27,37 @@ help:
 	@echo "  make all     : Nettoie, compile puis exécute le programme (équivalent à build + run)"
 	@echo "  make help    : Affiche cette aide"
 
-# Cible pour créer l'exécutable
-# Cette cible dépend de l'exécutable $(EXEC). Elle génère l'exécutable si besoin.
+# Target to create the executable
+# This target depends on the $(EXEC) executable. It generates the executable if necessary.
 build: $(EXEC)
 
-# Règle pour créer l'exécutable
-# La cible $(EXEC) (ici jeu.exe) dépend des fichiers objets $(OBJS).
-# Si les fichiers objets sont à jour, cette règle crée l'exécutable.
-# Utilisation de gcc avec les options $(CFLAGS) pour générer l'exécutable.
+# Rule to create the executable
+# The $(EXEC) target (here game.exe) depends on the $(OBJS) object files.
+# If the object files are up to date, this rule creates the executable.
+# Using gcc with $(CFLAGS) options to generate the executable.
 $(EXEC): $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $(OBJS)
 
-# Règle pour compiler les fichiers objets
-# Cette règle compile chaque fichier source .c en fichier objet .o.
-# Le nom du fichier cible est défini par %.o et %.c, où % correspond au nom du fichier sans extension.
-# Cela est nécessaire car la compilation des fichiers source en objets permet de les lier ensuite pour créer l'exécutable.
-# Si un fichier source n'a pas été modifié, il ne sera pas recompilé, ce qui accélère les constructions successives.
+# Rule for compiling object files
+# This rule compiles each .c source file into an .o object file.
+# The target file name is defined by %.o and %.c, where % is the file name without extension.
+# This is necessary because compiling the source files into objects allows them to then be linked to create the executable.
+# If a source file has not been modified, it will not be recompiled, speeding up successive builds.
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 
-# Règle de nettoyage
-# Cette règle supprime les fichiers objets (.o) et l'exécutable (.exe).
+# Cleaning rule
+# This rule removes object files (.o) and executable (.exe).
 clean:
 	rm -f $(OBJS) $(EXEC)
 
-# Règle pour exécuter le programme avec .exe
-# Cette règle compile d'abord (si nécessaire) et exécute l'exécutable.
+# Rule to run the program with .exe
+# This rule first compiles (if necessary) and runs the executable.
 run: $(EXEC)
 	./$(EXEC)
 
-# Cible pour compiler et exécuter
-# Cette règle combine plusieurs étapes : elle nettoie les anciens fichiers, compile et exécute le programme.
-# L'ordre des étapes est : clean, build, run.
+# Target to compile and run
+# This rule combines several steps: it cleans old files, compiles and runs the program.
+# The order of steps is: clean, build, run.
 all: clean build run

@@ -11,11 +11,3 @@ String createString(const char *text) {
     }
     return str;
 }
-
-void freeString(String *str) {
-    if (str->data) {
-        free(str->data);
-        str->data = NULL;
-        str->length = 0;
-    }
-}
