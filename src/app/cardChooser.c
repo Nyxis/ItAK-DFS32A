@@ -1,6 +1,12 @@
 #include <stdio.h>
 #include "../../includes/app/cartes.h"
 
+/**
+ * Sert à afficher une seule carte
+ * 
+ * @param card Card - Carte
+ */
+
 void cardPrinter(Card card){
     printf("--------------------   \n");
     printf("| Niv.: %-10d |   \n", card.level);
@@ -10,7 +16,15 @@ void cardPrinter(Card card){
 
 }
 
-int cardChooser(Card *deck)
+/**
+ * Sert au joueur pour choisir une carte dans son deck
+ * 
+ * @param deck Card* - Deck du joueur
+ * 
+ * @return deck[i] Card - Carte choisie par le joueur dans son deck
+ */
+
+Card cardChooser(Card* deck)
 {
     int choosenNumber;
     int playingChoice = 0;
@@ -88,5 +102,5 @@ int cardChooser(Card *deck)
         
     }
 
-    return choosenNumber;
+    return deck[choosenNumber - 1];
 }

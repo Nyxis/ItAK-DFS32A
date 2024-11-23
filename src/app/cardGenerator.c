@@ -13,6 +13,15 @@ char *colors[] = {
     "JAUNE",
     "VERT"};
 
+/**
+ * Générateur aleatoire de cartes, chaque carte possède trois attributs:
+ *   - Force (de 1 à 10)
+ *   - Couleur
+ *   - Niveau (de 1 à 3)
+ * 
+ * @return card Card - Retourne une carte avec les 3 attributs définis précédement (générés aléatoirement)
+ */
+
 Card cardGenerator()
 {
 
@@ -24,8 +33,8 @@ Card cardGenerator()
     }
 
     Card card;
-    card.level = (rand() % 3) + 1;   // Level
-    card.force = force;              // Force
+    card.level = (rand() % 3) + 1;    // Level
+    card.force = force;               // Force
     card.color = colors[rand() % 10]; // Couleur
 
     return card;
