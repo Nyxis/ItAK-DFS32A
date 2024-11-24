@@ -30,19 +30,23 @@ Card** boardInitializer(){
  * @return board Card** - Board du joueur
  */
 
-Card** boardUpdater(Card playedCard, int* sizeBoard, Card** board, int *playerTurn){
+Card** boardUpdater(Card playedCard, int* sizeBoard, Card** board, int* playerTurn){
 
-    // 
     int indexLigne = playedCard.level - 1;
 
     switch (indexLigne)
     {
     case 0:
-        
-        if (sizeBoard[0] <= 5)
+        if (sizeBoard[0] < 5)
         {
             sizeBoard[0]++;
-            board[0] = realloc(board[0], sizeBoard[0] * sizeof(Card));
+            
+            Card* tempBoard = realloc(board[0], sizeBoard[0] * sizeof(Card));
+            if (tempBoard == NULL) {
+                    printf("Erreur de réallocation mémoire !\n");
+                    return board;
+                }
+            board[0] = tempBoard;
             board[0][sizeBoard[0] - 1] = playedCard;
 
             return board;
@@ -50,21 +54,17 @@ Card** boardUpdater(Card playedCard, int* sizeBoard, Card** board, int *playerTu
         else
         {
             // fin du tour
-            printf("Impossible de jouer, la main passe à J2 \n");
-            *playerTurn = 2;
-            
+            (*playerTurn)++;
+            printf("Impossible de jouer, la main passe à l'autre joueur ! \n");
             return board;
         }
     
     default:
 
-        printf("Cas level 2 et 3 \n");
-        printf("ligne: %d \n", sizeBoard[indexLigne]);
-        printf("ligne du dessous: %d \n", sizeBoard[indexLigne -1]);
-
         if (sizeBoard[indexLigne] < sizeBoard[indexLigne - 1] && sizeBoard[indexLigne - 1] != 0)
         {
             sizeBoard[indexLigne]++;
+            
             board[indexLigne] = realloc(board[indexLigne], sizeBoard[indexLigne] * sizeof(Card));
             board[indexLigne][sizeBoard[indexLigne] - 1] = playedCard;
 
@@ -73,9 +73,9 @@ Card** boardUpdater(Card playedCard, int* sizeBoard, Card** board, int *playerTu
         else
         {
             // fin du tour
-            printf("Impossible de jouer, la main passe à J2 \n");
-            *playerTurn = 1;
-
+            (*playerTurn)++;
+            printf("Impossible de jouer, la main passe à l'autre joueur ! \n");
+            
             return board;
         }
     }

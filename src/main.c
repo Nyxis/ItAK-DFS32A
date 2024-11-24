@@ -16,14 +16,14 @@
  * @param board Card** - Board d'un joueur 
  */
 
-void turnPlay (int playerTurn, Card** decks, int* sizeBoard, Card** board){
+void turnPlay (int* playerTurn, int remainingCard, Card** decks, int* sizeBoard, Card*** board){
 
+    printf("Joueur %d joue ! \n", (*playerTurn) + 1);
     // On prompte l'utilisateur
-    Card drawnCard = cardChooser(decks[0]);
+    Card drawnCard = cardRandomDrawer(decks[0], remainingCard);
 
     // On pose la carte sur le board
-    board = boardUpdater(drawnCard, sizeBoard, board, &playerTurn);
-    boardPrinter(sizeBoard, board);
+    *board = boardUpdater(drawnCard, sizeBoard, *board, playerTurn);
 }
 
 /**
@@ -57,23 +57,32 @@ int main(int argc, char *argv[])
     // et la taille de chaque ligne est donc de 0
     int sizeBoard[3] = {0, 0, 0};
 
-    // On initializer le board
-    Card** board = boardInitializer();
+    // Génération des boards et mise dans un tableau
+    Card*** boards = malloc(playerCount * sizeof(Card**));
 
-    // Tant que J1 à toujours un des cqrtes et que c'est son tour il peut jouer
+    for (int i = 0; i < playerCount; i++)
+    {
+       boards[i] = boardInitializer();
+    }
+
+    // Tant que J1 à toujours un des cartes et que c'est son tour il peut jouer
     while (playerTurn == 0 && remainingCards > 0)
     {
-        turnPlay(playerTurn, decks, sizeBoard, board);
-
+        turnPlay(&playerTurn, remainingCards, decks, sizeBoard, &boards[playerTurn]);
+        boardPrinter(sizeBoard, boards[playerTurn]);
         remainingCards--;
     }
 
     // Quand J1 ne peux plus jouer, J2 peut jouer 3 tours
-    for (int oppTurn = 0; oppTurn < 3; oppTurn++)
+    int tourJ2 = 0;
+
+    printf("----------------------------------------------------- \n");
+    printf("Au tour de J2 \n");
+
+    while (playerTurn == 1 && tourJ2 < 3)
     {
-        turnPlay(playerTurn, decks, sizeBoard, board);
+        turnPlay(&playerTurn, remainingCards, decks, sizeBoard, &boards[playerTurn]);
+        boardPrinter(sizeBoard, boards[playerTurn]);
+        tourJ2++;
     }
-    
-    // On libere l'espace occupé par le board
-    free(board);
 };
