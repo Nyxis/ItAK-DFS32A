@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
     srand(time(NULL));
 
     // Nombre de joueurs
-    int playerCount = 2;
+    const int playerCount = 2;
     int playerTurn = 0;
     
     // Génération des decks et mise dans un tableau
@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
 
     // Au début de la partie le board ne contient aucune carte
     // et la taille de chaque ligne est donc de 0
-    int sizeBoard[3] = {0, 0, 0};
+    int sizeBoards[playerCount][3] = {{0, 0, 0}, {0, 0, 0}};
 
     // Génération des boards et mise dans un tableau
     Card*** boards = malloc(playerCount * sizeof(Card**));
@@ -68,8 +68,8 @@ int main(int argc, char *argv[])
     // Tant que J1 à toujours un des cartes et que c'est son tour il peut jouer
     while (playerTurn == 0 && remainingCards > 0)
     {
-        turnPlay(&playerTurn, remainingCards, decks, sizeBoard, &boards[playerTurn]);
-        boardPrinter(sizeBoard, boards[playerTurn]);
+        turnPlay(&playerTurn, remainingCards, decks, sizeBoards[playerTurn], &boards[playerTurn]);
+        boardPrinter(sizeBoards[playerTurn], boards[playerTurn]);
         remainingCards--;
     }
 
@@ -81,8 +81,8 @@ int main(int argc, char *argv[])
 
     while (playerTurn == 1 && tourJ2 < 3)
     {
-        turnPlay(&playerTurn, remainingCards, decks, sizeBoard, &boards[playerTurn]);
-        boardPrinter(sizeBoard, boards[playerTurn]);
+        turnPlay(&playerTurn, remainingCards, decks, sizeBoards[playerTurn], &boards[playerTurn]);
+        boardPrinter(sizeBoards[playerTurn], boards[playerTurn]);
         tourJ2++;
     }
 };

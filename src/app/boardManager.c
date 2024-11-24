@@ -89,89 +89,41 @@ Card** boardUpdater(Card playedCard, int* sizeBoard, Card** board, int* playerTu
  */
 
 void boardPrinter(int* sizeBoard, Card** board){
-    for (int row = 0; row < 3; row++)
-    {
-        printf("\n");
-        
-        for (int i = 0; i < sizeBoard[row] + 1; i++)
-        {
-            if (i == 0)
-            {
+    printf("sizeboard: %d \n", *sizeBoard);
 
-                printf("                       ");
+    // for (int row = 0; row < 3; row++)
+    // {
+    //     // Impression des bordures
+    //     for (int i = 0; i < sizeBoard[row]; i++)
+    //     {
+    //         printf("--------------------   ");
+    //     }
+    //     printf("\n");
 
-            } else {
+    //     // Impression des informations des cartes (Level, Force, Color)
+    //     for (int i = 0; i < sizeBoard[row]; i++)
+    //     {
+    //         printf("|  Level: %-8d |   ", board[row][i].level);
+    //     }
+    //     printf("\n");
 
-                printf("--------------------   ");
+    //     for (int i = 0; i < sizeBoard[row]; i++)
+    //     {
+    //         printf("|  Force: %-8d |   ", board[row][i].force);
+    //     }
+    //     printf("\n");
 
-            }
-        }
+    //     for (int i = 0; i < sizeBoard[row]; i++)
+    //     {
+    //         printf("|  Color: %-8s |   ", board[row][i].color);
+    //     }
+    //     printf("\n");
 
-        printf("\n");
-
-        for (int i = 0; i < sizeBoard[row] + 1; i++)
-        {
-            if (i == 0)
-            {
-
-                printf("                       ");
-
-            } else {
-
-                printf("|  Level: %-8d |   ", board[row][i - 1].level);
-
-            }
-        }
-
-        printf("\n");
-
-        for (int i = 0; i < sizeBoard[row] + 1; i++)
-        {
-            if (i == 0)
-            {
-
-                printf("Level %d                ", row + 1);
-
-            } else {
-
-                printf("|  Force: %-8d |   ", board[row][i - 1].force);
-            
-            }
-        }
-
-        printf("\n");
-
-        for (int i = 0; i < sizeBoard[row] + 1; i++)
-        {
-            if (i == 0)
-            {
-
-                printf("                       ");
-
-            } else {
-
-                printf("|  Color: %-8s |   ", board[row][i - 1].color);
-
-            }
-        }
-
-        printf("\n");
-
-        for (int i = 0; i < sizeBoard[row] + 1; i++)
-        {
-            if (i == 0)
-            {
-
-                printf("                       ");
-
-            } else {
-
-                printf("--------------------   ");
-
-            }
-        }
-
-        printf("\n \n");
-
-    }
+    //     // Impression des bordures de fin
+    //     for (int i = 0; i < sizeBoard[row]; i++)
+    //     {
+    //         printf("--------------------   ");
+    //     }
+    //     printf("\n\n");
+    // }
 }
