@@ -1,1 +1,3 @@
-src/main.exe
+*.log
+*.exe
+*.obj
