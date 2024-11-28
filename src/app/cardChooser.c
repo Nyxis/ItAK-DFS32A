@@ -1,6 +1,5 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include "../../includes/app/cardChooser.h"
+#include "../../includes/app/cartes.h"
 
 /**
  * Sert à afficher une seule carte
@@ -18,6 +17,7 @@ void cardPrinter(Card card){
 }
 
 /**
+ * /!\ DEPRECATED /!\
  * Sert au joueur pour choisir une carte dans son deck
  * 
  * @param deck Card* - Deck du joueur
@@ -104,7 +104,7 @@ Card cardChooser(Card* deck)
     }
 
     return deck[choosenNumber - 1];
-}
+};
 
 /**
  * Sert a faire piocher une carte au hasard dans le deck du joueur

@@ -1,27 +1,25 @@
 #include <time.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "../includes/app/cartes.h"
-#include "../includes/app/boardManager.h"
-#include "../includes/app/cardChooser.h"
-#include "../includes/app/cardGenerator.h"
-#include "../includes/app/deckGenerator.h"
+#include "cartes.h"
+#include "./app/cardGenerator.c"
+#include "./app/deckGenerator.c"
+#include "./app/cardChooser.c"
+#include "./app/boardManager.c"
 
 /**
  * Deroulement d'un tour
- *
+ * 
  * @param playerTurn int - Identifiant du joueur 9J1 = 0, J2 = 1)
  * @param decks Card** - Deck d'un joueur
  * @param sizeBoard int* - Tableau contenant la taille du board tel que {tailleLigne1, tailleLigne2, tailleLigne3}
  * @param board Card** - Board d'un joueur 
  */
 
-static void turnPlay (int playerTurn, int remainingCard, Card** decks, int* sizeBoard, Card** board){
-
-    printf("Joueur %d joue ! \n", playerTurn + 1);
+void turnPlay (int* playerTurn, int remainingCard, Card** decks, int* sizeBoard, Card*** board){
 
     // On prompte l'utilisateur
-    Card drawnCard = cardRandomDrawer(decks[0], remainingCard);
+    Card drawnCard = cardChooser(decks[0]);
 
     // On pose la carte sur le board
     board = boardUpdater(drawnCard, sizeBoard, board, &playerTurn);
@@ -41,7 +39,7 @@ int main()
     srand(time(NULL));
 
     // Nombre de joueurs
-    int playerCount = 2;
+    const int playerCount = 2;
     int playerTurn = 0;
     
     // Génération des decks et mise dans un tableau
