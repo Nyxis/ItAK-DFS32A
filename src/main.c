@@ -1,7 +1,7 @@
 #include <time.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "cartes.h"
+#include "../includes/app/cartes.h"
 #include "./app/cardGenerator.c"
 #include "./app/deckGenerator.c"
 #include "./app/cardChooser.c"
@@ -16,10 +16,12 @@
  * @param board Card** - Board d'un joueur 
  */
 
-void turnPlay (int playerTurn, Card** decks, int* sizeBoard, Card** board){
+static void turnPlay (int playerTurn, int remainingCard, Card** decks, int* sizeBoard, Card** board){
+
+    printf("Joueur %d joue ! \n", playerTurn + 1);
 
     // On prompte l'utilisateur
-    Card drawnCard = cardChooser(decks[0]);
+    Card drawnCard = cardRandomDrawer(decks[0], remainingCard);
 
     // On pose la carte sur le board
     board = boardUpdater(drawnCard, sizeBoard, board, &playerTurn);
@@ -33,7 +35,7 @@ void turnPlay (int playerTurn, Card** decks, int* sizeBoard, Card** board){
  * @param argv char* - Tableau contenant les arguments passés
  */
 
-int main(int argc, char *argv[])
+int main()
 {
     // "Moteur" de randomisation
     srand(time(NULL));
@@ -60,10 +62,10 @@ int main(int argc, char *argv[])
     // On initializer le board
     Card** board = boardInitializer();
 
-    // Tant que J1 à toujours un des cqrtes et que c'est son tour il peut jouer
+    // Tant que J1 à toujours un des cartes et que c'est son tour il peut jouer
     while (playerTurn == 0 && remainingCards > 0)
     {
-        turnPlay(playerTurn, decks, sizeBoard, board);
+        turnPlay(playerTurn, remainingCards, decks, sizeBoard, board);
 
         remainingCards--;
     }
@@ -71,7 +73,7 @@ int main(int argc, char *argv[])
     // Quand J1 ne peux plus jouer, J2 peut jouer 3 tours
     for (int oppTurn = 0; oppTurn < 3; oppTurn++)
     {
-        turnPlay(playerTurn, decks, sizeBoard, board);
+        turnPlay(playerTurn, remainingCards, decks, sizeBoard, board);
     }
     
     // On libere l'espace occupé par le board

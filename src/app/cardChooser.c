@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "../../includes/app/cartes.h"
 
 /**
@@ -104,3 +105,24 @@ Card cardChooser(Card* deck)
 
     return deck[choosenNumber - 1];
 }
+
+/**
+ * Sert a faire piocher une carte au hasard dans le deck du joueur
+ *
+ * @param deck Card* - Deck du joueur
+ * @param remainingCards int - Nombre de cartes restante dans le deck
+ *
+ * @return card Card - Carte piochée aléatoirement par le joueur
+ */
+
+Card cardRandomDrawer(Card* deck, int remainingCards)
+{
+    int randomIndex = rand() % (remainingCards);
+    Card selectedCard = deck[randomIndex];
+    deck[randomIndex] = deck[remainingCards - 1];
+    remainingCards--;
+
+    deck = realloc(deck, remainingCards * sizeof(Card));
+
+    return selectedCard;
+};

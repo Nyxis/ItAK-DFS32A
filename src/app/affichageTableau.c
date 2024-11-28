@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "affichageTableau.h"
+#include "../../includes/app/affichageTableau.h"
 
 void affichageTableau(TableauProp entreesUser)
 {
