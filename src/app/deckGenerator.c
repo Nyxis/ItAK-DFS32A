@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include "../../includes/app/cartes.h"
+#include "../../includes/app/cardGenerator.h"
 #include "../../includes/app/deckGenerator.h"
 
 /**

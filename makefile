@@ -1,4 +1,4 @@
-TARGET = hello_world.exe
+TARGET = hello_world.out
 
 CC = gcc
 

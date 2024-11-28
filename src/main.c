@@ -2,14 +2,14 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "../includes/app/cartes.h"
-#include "./app/cardGenerator.c"
-#include "./app/deckGenerator.c"
-#include "./app/cardChooser.c"
-#include "./app/boardManager.c"
+#include "../includes/app/boardManager.h"
+#include "../includes/app/cardChooser.h"
+#include "../includes/app/cardGenerator.h"
+#include "../includes/app/deckGenerator.h"
 
 /**
  * Deroulement d'un tour
- * 
+ *
  * @param playerTurn int - Identifiant du joueur 9J1 = 0, J2 = 1)
  * @param decks Card** - Deck d'un joueur
  * @param sizeBoard int* - Tableau contenant la taille du board tel que {tailleLigne1, tailleLigne2, tailleLigne3}

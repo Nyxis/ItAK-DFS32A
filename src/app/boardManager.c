@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../../includes/app/cartes.h"
+#include "../../includes/app/boardManager.h"
 
 /** 
  * Sert à initialiser un board (plateau de jeu) composé

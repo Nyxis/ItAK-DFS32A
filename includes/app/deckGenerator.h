@@ -1,6 +1,13 @@
-#ifndef DECK_GENERATOR_H
-#define DECK_GENERATOR_H
+#ifndef DECKGENERATOR_H
+#define DECKGENERATOR_H
 
-Card *deckGenerator();
+#include "cartes.h"
+
+/**
+ * Générateur de deck, faisant appel à cardGenerator() pour générer les cartes
+ *
+ * @return Card* - un tableau de taille tailleDeck de cartes générées aléatoirement
+ */
+Card* deckGenerator();
 
 #endif

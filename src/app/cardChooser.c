@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../../includes/app/cartes.h"
+#include "../../includes/app/cardChooser.h"
 
 /**
  * Sert à afficher une seule carte

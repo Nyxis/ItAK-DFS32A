@@ -8,8 +8,4 @@ typedef struct
     char *color;
 } Card;
 
-extern char *colors[];
-
-Card cardGenerator();
-
 #endif
