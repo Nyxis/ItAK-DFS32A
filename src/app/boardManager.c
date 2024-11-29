@@ -13,6 +13,11 @@ Card** boardInitializer(){
 
     Card** board = malloc(3 * sizeof(Card*));
 
+    if (board == NULL) {
+        fprintf(stderr, "Erreur : allocation mémoire échouée pour board\n");
+        exit(EXIT_FAILURE);
+    }
+
     for (int i = 0; i < 3; i++) {
         board[i] = NULL;
     }
@@ -26,60 +31,43 @@ Card** boardInitializer(){
  * @param playedCard Card - Index de la carte choisie par le joueur
  * @param sizeBoard int* - Taille actuelle du board
  * @param board Card** - Board du joueur
- * @param playerTurn int* - Identifiant du joueur (J1 = 0, J2 = 1)
  * 
  * @return board Card** - Board du joueur
  */
 
-Card** boardUpdater(Card playedCard, int* sizeBoard, Card** board, int* playerTurn){
+Card** boardUpdater(int* playerTurn, Card playedCard, int* sizeBoard, Card** board){
 
     int indexLigne = playedCard.level - 1;
 
-    switch (indexLigne)
-    {
-    case 0:
-        if (sizeBoard[0] < 5)
-        {
-            sizeBoard[0]++;
-            
-            Card* tempBoard = realloc(board[0], sizeBoard[0] * sizeof(Card));
-            if (tempBoard == NULL) {
-                    printf("Erreur de réallocation mémoire !\n");
-                    return board;
-                }
-            board[0] = tempBoard;
-            board[0][sizeBoard[0] - 1] = playedCard;
+    if (indexLigne < 0 || indexLigne >= 3) {
+            fprintf(stderr, "Erreur : niveau de carte invalide (%d)\n", playedCard.level);
+            return board;
+        }
 
-            return board;
+    // Cas où on ajoute une carte à une ligne
+    if (indexLigne == 0 && sizeBoard[0] < 5) {
+        sizeBoard[0]++;
+        board[indexLigne] = realloc(board[indexLigne], sizeBoard[0] * sizeof(Card));
+        if (board[indexLigne] == NULL) {
+            fprintf(stderr, "Erreur : allocation mémoire échouée pour board[%d]\n", indexLigne);
+            exit(EXIT_FAILURE);
         }
-        else
-        {
-            // fin du tour
-            (*playerTurn)++;
-            printf("Impossible de jouer, la main passe à l'autre joueur ! \n");
-            return board;
+        board[indexLigne][sizeBoard[0] - 1] = playedCard;
+    } else if (indexLigne > 0 &&
+               sizeBoard[indexLigne] < sizeBoard[indexLigne - 1] &&
+               sizeBoard[indexLigne - 1] > 0) {
+        sizeBoard[indexLigne]++;
+        board[indexLigne] = realloc(board[indexLigne], sizeBoard[indexLigne] * sizeof(Card));
+        if (board[indexLigne] == NULL) {
+            fprintf(stderr, "Erreur : allocation mémoire échouée pour board[%d]\n", indexLigne);
+            exit(EXIT_FAILURE);
         }
-    
-    default:
-
-        if (sizeBoard[indexLigne] < sizeBoard[indexLigne - 1] && sizeBoard[indexLigne - 1] != 0)
-        {
-            sizeBoard[indexLigne]++;
-            
-            board[indexLigne] = realloc(board[indexLigne], sizeBoard[indexLigne] * sizeof(Card));
-            board[indexLigne][sizeBoard[indexLigne] - 1] = playedCard;
-
-            return board;
-        }
-        else
-        {
-            // fin du tour
-            (*playerTurn)++;
-            printf("Impossible de jouer, la main passe à l'autre joueur ! \n");
-            
-            return board;
-        }
+        board[indexLigne][sizeBoard[indexLigne] - 1] = playedCard;
+    } else {
+        (*playerTurn)++;
     }
+
+    return board;
 }
 
 /**
@@ -90,41 +78,44 @@ Card** boardUpdater(Card playedCard, int* sizeBoard, Card** board, int* playerTu
  */
 
 void boardPrinter(int* sizeBoard, Card** board){
-    printf("sizeboard: %d \n", *sizeBoard);
+     for (int row = 0; row < 3; row++)
+     {
+         printf("                       ");
+         // Impression des bordures
+         for (int i = 0; i < sizeBoard[row]; i++)
+         {
+             printf("--------------------   ");
+         }
+         printf("\n");
 
-    // for (int row = 0; row < 3; row++)
-    // {
-    //     // Impression des bordures
-    //     for (int i = 0; i < sizeBoard[row]; i++)
-    //     {
-    //         printf("--------------------   ");
-    //     }
-    //     printf("\n");
+         printf("                       ");
+         // Impression des informations des cartes (Level, Force, Color)
+         for (int i = 0; i < sizeBoard[row]; i++)
+         {
+             printf("|  Level: %-8d |   ", board[row][i].level);
+         }
+         printf("\n");
 
-    //     // Impression des informations des cartes (Level, Force, Color)
-    //     for (int i = 0; i < sizeBoard[row]; i++)
-    //     {
-    //         printf("|  Level: %-8d |   ", board[row][i].level);
-    //     }
-    //     printf("\n");
+        printf("Ligne nº%-15d", row + 1);
+         for (int i = 0; i < sizeBoard[row]; i++)
+         {
+             printf("|  Force: %-8d |   ", board[row][i].force);
+         }
+         printf("\n");
 
-    //     for (int i = 0; i < sizeBoard[row]; i++)
-    //     {
-    //         printf("|  Force: %-8d |   ", board[row][i].force);
-    //     }
-    //     printf("\n");
+         printf("                       ");
+         for (int i = 0; i < sizeBoard[row]; i++)
+         {
+             printf("|  Color: %-8s |   ", board[row][i].color);
+         }
+         printf("\n");
 
-    //     for (int i = 0; i < sizeBoard[row]; i++)
-    //     {
-    //         printf("|  Color: %-8s |   ", board[row][i].color);
-    //     }
-    //     printf("\n");
-
-    //     // Impression des bordures de fin
-    //     for (int i = 0; i < sizeBoard[row]; i++)
-    //     {
-    //         printf("--------------------   ");
-    //     }
-    //     printf("\n\n");
-    // }
+         printf("                       ");
+         // Impression des bordures de fin
+         for (int i = 0; i < sizeBoard[row]; i++)
+         {
+             printf("--------------------   ");
+         }
+         printf("\n\n");
+     }
 }

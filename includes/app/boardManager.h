@@ -20,7 +20,7 @@ Card** boardInitializer();
  *
  * @return Card** - Le board du joueur mis à jour.
  */
-Card** boardUpdater(Card playedCard, int* sizeBoard, Card** board, int* playerTurn);
+Card** boardUpdater(int *playerTurn, Card playedCard, int* sizeBoard, Card** board);
 
 /**
  * Sert à afficher l'état du board à un instant donné.
