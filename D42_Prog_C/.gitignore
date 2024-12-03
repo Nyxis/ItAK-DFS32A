@@ -1,0 +1,44 @@
+# Fichiers d'exécution
+*.exe
+*.out
+*.o
+*.obj
+
+# Dossiers de compilation
+/build/
+/bin/
+/Debug/
+/Release/
+
+# Fichiers de logs
+*.log
+
+# Fichiers de sauvegarde de l'éditeur
+*~
+*.swp
+*.swo
+*.bak
+*.tmp
+
+# Fichiers générés par l'IDE
+.vscode/
+.idea/
+*.code-workspace
+*.db
+*.opendb
+*.user
+*.ncb
+*.sdf
+*.suo
+*.vcxproj*
+*.project
+*.cproject
+
+# Fichiers Makefile générés automatiquement
+Makefile
+makefile
+*.d
+
+# Autres fichiers temporaires
+.DS_Store
+Thumbs.db
