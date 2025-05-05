@@ -10,6 +10,7 @@ Pour déposer vos développements et livrables en général, vous devez suivre l
 ## Sommaire des exercices
 
   - [D42 - Programmation C](D42_Prog_C/README.md)
+  - [D46 - Prog Web III - Php Design Patterns](D46_Php_Design_Patterns/README.md)
 
 ## Documentation
 
