@@ -1,0 +1,26 @@
+[
+    {
+        "ean": "123456781",
+        "type": "marchandise",
+        "designation": "Zhelaniye",
+        "poids": 123
+    },
+    {
+        "ean": "123456782",
+        "type": "marchandise",
+        "designation": "Rzhavyy",
+        "poids": 456
+    },
+    {
+        "ean": "123456783",
+        "type": "marchandise",
+        "designation": "Semnadtsat'",
+        "poids": 789
+    },
+    {
+        "ean": "09876543",
+        "type": "service",
+        "mission": "Tovarnyy vagon",
+        "duree": 2
+    }
+]
