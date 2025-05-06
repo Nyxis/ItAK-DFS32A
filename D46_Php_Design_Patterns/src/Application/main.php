@@ -25,22 +25,20 @@ use Types\Role;
 function main(array $args) {
 
     $croquette = new Product('Croquettes', ProductType::PET, new Stock());
-    var_dump($croquette);
-
     $litiere = new Product('Litiere', ProductType::PET, new Stock());
-    var_dump($litiere);
 
     $employee = new User('Thomas', Role::EMPLOYEE);
-    var_dump($employee);
 
     $croquePet = new User("Croque-Pet'", Role::SUPPLIER);
 
     $supplier = new Supplier($croquePet,"0453646464", "chemin des herissons", "contact@croquepet.com");
-    var_dump($supplier);
+
+    $devis = new Devis($supplier, 312.60, [$croquette, $litiere]);
 
     $order = new Order($employee, $croquePet, [$croquette]);
     $order->addToOrder([$litiere]);
-    var_dump($order);
+
+
 }
 
 return main($argv);

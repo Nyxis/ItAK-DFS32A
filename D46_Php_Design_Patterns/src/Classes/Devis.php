@@ -2,14 +2,14 @@
 
 namespace Classes;
 
-use Product;
+use Classes\Product;
 
 class Devis
 {
     public function __construct(
-        readonly public Supplier $dealer,
+        readonly public Supplier $supplier,
         readonly public float    $price,
-        readonly public Product  $product,
+        readonly public array  $product,
     )
     {
     }
