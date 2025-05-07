@@ -40,8 +40,8 @@ class FileReaderSelector implements ProductFileReaderInterface
     
         foreach ($this->strategies as $strategy) {
             if ($strategy->supports($this->filePath)) {
-                $strategy->setFile($this->filePath); // ✅ on configure l’instance
-                return $strategy->read();            // ✅ on utilise l’instance existante
+                $strategy->setFile($this->filePath);
+                return $strategy->read();
             }
         }
     

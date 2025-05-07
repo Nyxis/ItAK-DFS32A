@@ -22,13 +22,11 @@ function main(array $argv): void
 {
     $filePath = $argv[1] ?? PROJECT_DIR . '/../data/products.json';
 
-    // 💡 Injection des prototypes dans la factory
     $factory = new ProductFactory([
         'marchandise' => new MerchandisePrototype(),
         'service'     => new ServicePrototype(),
     ]);
 
-    // 🧠 Détection automatique du format avec le visiteur
     $readerSelector = new FileReaderSelector(
         new JsonProductReader(),
         new CsvProductReader()

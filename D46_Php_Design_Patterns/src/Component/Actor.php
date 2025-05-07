@@ -5,7 +5,7 @@ namespace Component;
 class Actor
 {
     private string $id;
-    private string $role; // ex : "client", "magasin", "admin", etc.
+    private string $role;
 
     public function __construct(string $id, string $role)
     {

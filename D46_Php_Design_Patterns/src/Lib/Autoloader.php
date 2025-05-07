@@ -5,7 +5,7 @@ class Autoloader
     public function __construct(
         private ?string $dossierRacineProjet = null
     ) {
-        // Redirige par défaut vers le dossier src
+        // 
         $this->dossierRacineProjet = $this->dossierRacineProjet ?: realpath(__DIR__ . '/../src');
 
         spl_autoload_register(function ($nomClasse) {

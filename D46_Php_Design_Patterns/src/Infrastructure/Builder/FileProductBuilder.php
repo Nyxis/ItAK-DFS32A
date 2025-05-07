@@ -39,7 +39,7 @@ class FileProductBuilder implements ProductBuilderInterface
 
         foreach ($filteredData as $productData) {
             if (!isset($productData['type'])) {
-                continue; // ou logguer l'oubli
+                continue; // ou log
             }
             yield $this->factory->createFromArray($productData);
         }

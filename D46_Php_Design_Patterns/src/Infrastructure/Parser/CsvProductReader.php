@@ -47,7 +47,7 @@ class CsvProductReader implements ProductFileReaderInterface
             }
         
             if (count($headers) !== count($line)) {
-                // Optionnel : log ou message
+                // 
                 continue;
             }
         
