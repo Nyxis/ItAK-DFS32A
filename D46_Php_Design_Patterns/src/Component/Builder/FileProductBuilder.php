@@ -18,6 +18,17 @@ class FileProductBuilder {
     }
 
     /**
+     * Filtrer la collection de produit
+     * @param callable $callback
+     * @return self
+     */
+    public function filter(callable $callback): self
+    {
+        $this->produits = array_filter($this->produits, $callback);
+        return $this;
+    }
+
+    /**
      * Récupérer la collection générer
      * @return \Component\Domain\AbstractProduit[]
      */

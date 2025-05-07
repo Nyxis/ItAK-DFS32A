@@ -19,7 +19,9 @@ function main(array $args) {
     $builder = new FileProductBuilder();
 
     // Créer une collection d'objet produit
-    $products = $builder->createFrom((new JsonBuilder)->parse($productsJsonPath))->getCollection();
+    $products = $builder->createFrom((new JsonBuilder)->parse($productsJsonPath))
+        ->filter(fn (AbstractProduit $produit) => $produit->getNom() > 0)
+        ->getCollection();
 
     /** @var AbstractProduit $product **/
     foreach ($products as $product) {
