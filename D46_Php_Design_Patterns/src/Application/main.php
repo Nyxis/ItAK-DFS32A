@@ -6,12 +6,16 @@ require_once PROJECT_DIR.'/Lib/Autoloader.php';
 
 new Autoloader(PROJECT_DIR);
 
+use Factories\ProductBuilder;
+use Factories\ProductFactory;
 use Classes\Devis;
 use Classes\Order;
 use Classes\Product;
 use Classes\Stock;
 use Classes\Supplier;
 use Classes\User;
+use Classes\Service;
+use Classes\Marchandise;
 use Types\OrderStatus;
 use Types\ProductType;
 use Types\Role;
@@ -24,8 +28,10 @@ use Types\Role;
 
 function main(array $args) {
 
-    $croquette = new Product('Croquettes', ProductType::PET, new Stock());
-    $litiere = new Product('Litiere', ProductType::PET, new Stock());
+    /** Exercice 1 **/
+    /*
+    $croquette = new Product('Croquettes', 'pet', '12348559', new Stock());
+    $litiere = new Product('Litiere', 'pet', '37846283', new Stock());
 
     $employee = new User('Thomas', Role::EMPLOYEE);
 
@@ -37,7 +43,27 @@ function main(array $args) {
 
     $order = new Order($employee, $croquePet, [$croquette]);
     $order->addToOrder([$litiere]);
+    */
 
+    /*** Exercice 2 et 3 ***/
+
+    $factory = new ProductFactory([
+        'marchandise' => Marchandise::class,
+        'service' => Service::class,
+    ]);
+
+    $datasourcePath = './data/products.json';
+
+    $builder = new ProductBuilder($factory);
+
+    $productCollection = $builder->createFrom($datasourcePath)
+        ->filter(fn(array $productData) => strlen($productData['ean']) < 9)
+        ->getCollection()
+    ;
+
+    foreach ($productCollection as $product) {
+        var_dump($product);
+    }
 
 }
 

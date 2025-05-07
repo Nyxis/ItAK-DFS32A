@@ -4,8 +4,8 @@ namespace Types;
 
 enum ProductType
 {
-    case FOOD;
-    case HEALTH;
+    case MARCHANDISE;
+    case SERVICE;
     case PET;
     case ELECTRONIC;
     case BOOK;
