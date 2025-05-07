@@ -1,48 +1,45 @@
 <?php
 
-require_once __DIR__ . '/../../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
-use App\Lib\Builder\ProduitBuilder;
-use App\Lib\Builder\ProduitPrototype;
-use App\Component\Produit\Produit;
-use App\Component\Produit\TypeProduit;
+use Infrastructure\Product\FileProductBuilder;
+use Infrastructure\Product\PrototypeProductFactory;
+use Infrastructure\Product\JsonProductDataSource;
+use Infrastructure\Product\CsvProductDataSource;
 
-echo "Début du script...\n"; 
+function main(string $datasourceFile)
+{
+    try {
+        $factory = new PrototypeProductFactory();
 
-$produitPrototype = new ProduitPrototype();
-$produitPrototype->setPrototype(new Produit('', TypeProduit::MARCHANDISE, 0.0));
+        // Enregistrement des prototypes
+        $factory->register('merchandise', new \Component\Product\ProductPrototype('merchandise'));
+        $factory->register('service', new \Component\Product\ProductPrototype('service'));
 
-$filePath = __DIR__ . '/../src/Infrastructure/Data/products.json';
-echo "Chemin du fichier : " . realpath($filePath) . "\n"; 
+        // Initialisation du builder avec les stratégies
+        $builder = new FileProductBuilder(
+            $factory,
+            [
+                new JsonProductDataSource(),
+                new CsvProductDataSource(),
+            ]
+        );
 
-$produits = (new ProduitBuilder())
-    ->from($filePath)
-    ->addFilter(fn(array $data) => $data['type'] === 'marchandise')
-    ->setPrototype($produitPrototype)
-    ->build();
+        // Création de la collection de produits avec filtre
+        $productCollection = $builder
+            ->createFrom($datasourceFile)
+            ->filter(fn(array $p) => $p['price'] > 100)
+            ->getCollection();
 
-foreach ($produits as $produit) {
-    echo "Produit : " . $produit->getNom() . " - Prix : " . $produit->getPrix() . "\n"; 
-    var_dump($produit);
+        // Affichage des produits
+        foreach ($productCollection as $product) {
+            echo $product . PHP_EOL;
+        }
+
+    } catch (\Throwable $e) {
+        echo "[ERROR] " . $e->getMessage() . PHP_EOL;
+    }
 }
 
-
-// lancer la commande "php Application/main.php" dans la console
-
-// // register Autoloader
-// define('PROJECT_DIR', realpath(__DIR__.'/..'));
-// require_once PROJECT_DIR.'/Lib/Autoloader.php';
-
-// new Autoloader(PROJECT_DIR);
-
-// /**
-//  * Main function
-//  */
-// function main(array $args) {
-
-// }
-
-// return main($argv);
-
-
-
+// Appel de la fonction main avec le chemin vers le fichier JSON à la racine
+main(dirname(__DIR__, 2) . '/product.json');
