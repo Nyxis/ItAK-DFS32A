@@ -1,0 +1,10 @@
+{
+    "autoload": {
+        "psr-4": {
+            "App\\Component\\": "src/Component/",
+            "App\\Lib\\": "src/Lib/",
+            "App\\Application\\": "src/Application/"
+        }
+    }
+}
+
