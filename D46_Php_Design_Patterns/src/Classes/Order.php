@@ -8,10 +8,8 @@ use Types\OrderStatus;
 class Order
 {
 
-    private
-    array $statusUpdateTable;
-    private
-    OrderStatus $status = OrderStatus::RECEIVED;
+    private array $statusUpdateTable;
+    private OrderStatus $status = OrderStatus::RECEIVED;
 
     public function __construct(
         readonly User $operator,

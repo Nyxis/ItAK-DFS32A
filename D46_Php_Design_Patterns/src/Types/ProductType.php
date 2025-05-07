@@ -1,8 +1,8 @@
 <?php
 
 namespace Types;
-enum ProductType
+enum ProductType: string
 {
-    case ARTICLE;
-    case SERVICE;
+    case ARTICLE = 'marchandise';
+    case SERVICE = 'service';
 }
