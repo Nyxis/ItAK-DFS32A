@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use Infrastructure\Product\FileProductBuilder;
+use Lib\Product\FileProductBuilder;
 use Infrastructure\Product\PrototypeProductFactory;
 use Infrastructure\Product\JsonProductDataSource;
 use Infrastructure\Product\CsvProductDataSource;
