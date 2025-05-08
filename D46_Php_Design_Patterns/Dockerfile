@@ -10,11 +10,11 @@ WORKDIR /app
 # Copier tous les fichiers du projet dans le conteneur
 COPY . .
 
-# Installer les dépendances PHP du projet
-RUN composer install
+# Vérifier le contenu
+RUN ls -la /app && ls -la /app/src/Application && ls -la /app/product.json || echo "product.json not found"
 
-# Exposer le port si nécessaire (ex: port 80 ou autre)
-EXPOSE 80
+# Installer les dépendances PHP du projet et vérifier autoload.php
+RUN composer install && ls -la vendor/ && test -f vendor/autoload.php && echo "vendor/autoload.php exists" || echo "vendor/autoload.php missing"
 
 # Commande par défaut
-CMD ["php", "src/Application/main.php"]
+CMD ["php", "src/Application/Main.php"]

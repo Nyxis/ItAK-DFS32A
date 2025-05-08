@@ -1,14 +1,12 @@
 {
-    "autoload": {
+  "require": {
+      "php": ">=8.2"
+  },
+  "autoload": {
       "psr-4": {
-        "Application\\": "src/Application/",
-        "Component\\": "src/Component/",
-        "Lib\\": "src/Lib/",
-        "Infrastructure\\": "src/Infrastructure/"
+          "Lib\\": "src/Lib/",
+          "Infrastructure\\": "src/Infrastructure/",
+          "Component\\": "src/Component/"
       }
-    },
-    "require": {
-      "php": "^7.4 || ^8.0"
-    }
   }
-  
+}

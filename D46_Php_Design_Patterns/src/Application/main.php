@@ -1,6 +1,7 @@
 <?php
 
-require_once __DIR__ . '/../vendor/autoload.php';
+// require_once __DIR__ . '/../vendor/autoload.php';
+require_once '/app/vendor/autoload.php';
 
 use Lib\Product\FileProductBuilder;
 use Infrastructure\Product\PrototypeProductFactory;
@@ -28,7 +29,7 @@ function main(string $datasourceFile)
         // Création de la collection de produits avec filtre
         $productCollection = $builder
             ->createFrom($datasourceFile)
-            ->filter(fn(array $p) => $p['price'] > 100)
+            ->filter(fn(\Component\Product\ProductPrototype $p) => $p->price > 100)
             ->getCollection();
 
         // Affichage des produits

@@ -6,7 +6,7 @@ class ProductPrototype
 {
     protected int $id;
     protected string $name;
-    protected float $price;
+    public float $price;
     protected string $type;
 
     public function __construct(string $type)

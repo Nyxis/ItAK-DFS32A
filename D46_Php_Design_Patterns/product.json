@@ -13,8 +13,26 @@
     },
     {
         "id": 3,
-        "name": "Produit 3",
-        "price": 200.0,
+        "name": "Dignité de Darmanin",
+        "price": 0.1,
+        "type": "merchandise"
+    },
+    {
+        "id": 4,
+        "name": "Probité de Wauquiez",
+        "price": 0.2,
+        "type": "merchandise"
+    },
+    {
+        "id": 5,
+        "name": "Pilipou",
+        "price": 10.0,
+        "type": "merchandise"
+    },
+    {
+        "id": 6,
+        "name": "Dacia Sandero",
+        "price": 2000.0,
         "type": "merchandise"
     }
 ]
