@@ -32,4 +32,9 @@ class ProductPrototype
     {
         return "[{$this->type}] {$this->name} (ID: {$this->id}) - {$this->price}€";
     }
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
 }

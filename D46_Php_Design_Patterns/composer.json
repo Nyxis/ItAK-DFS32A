@@ -1,12 +1,13 @@
 {
-  "require": {
-      "php": ">=8.2"
-  },
-  "autoload": {
-      "psr-4": {
-          "Lib\\": "src/Lib/",
-          "Infrastructure\\": "src/Infrastructure/",
-          "Component\\": "src/Component/"
-      }
-  }
+    "autoload": {
+        "psr-4": {
+            "Component\\Product\\": "src/Component/Product/",
+            "Component\\Supplier\\": "src/Component/Supplier/",
+            "Component\\Order\\": "src/Component/Order/",
+            "Component\\Stock\\": "src/Component/Stock/",
+            "Component\\User\\": "src/Component/User/",
+            "Lib\\Product\\": "src/Lib/Product/",
+            "Infrastructure\\Product\\": "src/Infrastructure/Product/"
+        }
+    }
 }
