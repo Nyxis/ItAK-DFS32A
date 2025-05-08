@@ -23,11 +23,6 @@ class ProductPrototype
         }
     }
 
-    public function __clone()
-    {
-        // Possibilité de réinitialiser certains champs ici si nécessaire
-    }
-
     public function __toString(): string
     {
         return "[{$this->type}] {$this->name} (ID: {$this->id}) - {$this->price}€";

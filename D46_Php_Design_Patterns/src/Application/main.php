@@ -25,7 +25,7 @@ function main(string $datasourceFile)
 
         // Instanciation d'un produit pour le fournisseur
         $product = new ProductPrototype('merchandise');
-        $product->setAttributes(['id' => 1, 'name' => 'Sample Product', 'price' => 150]);
+        $product->setAttributes(['id' => 1, 'name' => 'Sample Product', 'price' => 1500]);
         $supplier->addProduct($product, 145.50);
 
         // Instanciation d'une commande
