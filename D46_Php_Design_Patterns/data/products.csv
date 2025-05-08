@@ -1,0 +1,9 @@
+ean;type;designation;poids;mission;duree
+123456781;marchandise;Zhelaniye;123;sucsssint;1
+123456782;marchandise;Rzhavyy;456;sucsssint;1
+123456783;marchandise;Semnadtsat';789;sucsssint;1
+09876543;service;;;Tovarnyy vagon;2
+11223344;service;;;Formation sécurité;3
+22334455;marchandise;Tesseract-Drive;1500;;
+33445566;marchandise;NanoFeather;89;;
+44556677;service;;;Consulting IA;1
