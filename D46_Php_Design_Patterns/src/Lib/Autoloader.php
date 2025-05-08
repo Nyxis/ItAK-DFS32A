@@ -3,20 +3,19 @@
 class Autoloader
 {
     public function __construct(
-        private ?string $projectDir = null
+        private ?string $dossierRacineProjet = null
     ) {
-        $this->projectDir = $this->projectDir ?: realpath(__DIR__);
+        $this->dossierRacineProjet = $this->dossierRacineProjet ?: realpath(__DIR__ . '/../src');
 
-        spl_autoload_register(function ($classname) {
-
-            $globPattern = sprintf('%s%s%s.php',
-                $this->projectDir,
+        spl_autoload_register(function ($nomClasse) {
+            $cheminClasse = sprintf('%s%s%s.php',
+                $this->dossierRacineProjet,
                 DIRECTORY_SEPARATOR,
-                str_replace('\\', DIRECTORY_SEPARATOR, $classname)
+                str_replace('\\', DIRECTORY_SEPARATOR, $nomClasse)
             );
 
-            foreach (glob($globPattern) as $phpFile) {
-                require_once($phpFile);
+            foreach (glob($cheminClasse) as $fichierPhp) {
+                require_once($fichierPhp);
             }
         });
     }
