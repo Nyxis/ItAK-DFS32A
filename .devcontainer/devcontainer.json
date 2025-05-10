@@ -1,0 +1,14 @@
+{
+  "name": "Existing Dockerfile",
+  "context": "..",
+  "dockerFile": "Dockerfile",
+  "settings": {
+    "terminal.integrated.shell.linux": "/bin/bash"
+  },
+  "extensions": [
+    "ms-vscode.cpptools",
+    "twxs.cmake"  // Extension pour Makefile
+  ],
+  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y ntpdate && sudo ntpdate -s time.nist.gov",
+  "remoteUser": "vscode"
+}
